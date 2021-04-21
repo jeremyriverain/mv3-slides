@@ -68,6 +68,19 @@
           </code></pre>
         </section>
         <section>
+          <h3>Background scripts</h3>
+          <ul>
+            <li>
+              Script d'arrière-plan actif dès lors que l'extension est
+              installée
+            </li>
+            <li>Accès aux Web Extensions API</li>
+            <li>
+              N'a pas accès à la page web (contrairement aux content scripts)
+            </li>
+          </ul>
+        </section>
+        <section>
           <h3>Popups, Dev Tools, Options page</h3>
           <ul>
             <li>Composants UI d'une extension</li>
@@ -85,28 +98,13 @@
             <li>Accès <strong>limité</strong> aux Web Extensions API</li>
           </ul>
         </section>
-
         <section>
-          <h3>Background scripts</h3>
+          <h3>Injected scripts</h3>
           <ul>
-            <li>
-              Script d'arrière-plan actif dès lors que l'extension est
-              installée
-            </li>
-            <li>Accès aux Web Extensions API</li>
-            <li>
-              N'a pas accès à la page web (contrairement aux content scripts)
-            </li>
+            <li>Equivalent des content scripts mais injectés dynamiquement</li>
           </ul>
         </section>
-        <section>
-          <p>
-            Rôle central des background scripts pour lier les parties de
-            l'extension entre elles
-          </p>
 
-          <img src="dist/images/interaction.png" alt="Interaction parts web extension" />
-        </section>
       </section>
       <section>
         <section>
@@ -134,7 +132,8 @@
           </aside>
         </section>
         <section>
-          <p>&lt;all_urls&gt; trop courant</p>
+
+          <p>Permissions "irrévocables" accordées lors de l'installation de l'extension</p>
           <img src="dist/images/all_url.png" width="400" />
           <pre><code data-noescape data-trim>
                 {
@@ -228,7 +227,11 @@
           <ul>
             <li>Exécution plus éphémère que les background scripts (gain performance)</li>
             <li>Event-based thinking</li>
+            <li>Utilisation de l'API storage pour stocker globalement des valeurs</li>
           </ul>
+          <pre><code data-noescape data-trim>
+              chrome.storage.sync.set({ color: 'green' });
+          </code></pre>
         </section>
         <section>
           <img src="dist/images/architecture_mv3.png" alt="architecture web extension with manifest v3">
@@ -236,11 +239,39 @@
       </section>
 
       <section>
-        <h3>Conclusion</h3>
-        <li class="fragment">Bénéfice intéressant pour l'utilisateur (securité de la navigation, protection des
-          données) 👍</li>
-        <li class="fragment">Plateforme instable. Manifeste très récent, encore à l'état d'ébauche 🤯</li>
-        <li class="fragment">Limitations des possibilités pour les développeurs d'extension ❓</li>
+        <section>
+          <h2>Démo migration MV2 -> MV3</h2>
+          <hr>
+          <p>
+            <a href="https://github.com/jeremyriverain/web-vitals-extension">Web vitals Extension</a>
+          </p>
+
+          <img src="dist/images/screenshot.png" width="400" />
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h3>Conclusion</h3>
+          <li class="fragment">Bénéfice intéressant pour l'utilisateur (securité de la navigation, protection des
+            données) 👍</li>
+          <li class="fragment">Limitations des possibilités pour les développeurs d'extension ❓</li>
+          <li class="fragment">Plateforme instable. Manifeste très récent, encore à l'état d'ébauche 🤯</li>
+        </section>
+        <section>
+          <h3>Resources</h3>
+          <ul>
+            <li>Doc Chrome <a href="https://developer.chrome.com/docs/extensions/mv3/intro/">MV3</a></li>
+            <li><a href="https://github.com/jeremyriverain/mv3-slides">Slides</a> de la présentation</li>
+            <li>Repo Git <a href="https://github.com/jeremyriverain/web-vitals-extension">Web vitals Extension</a>
+            </li>
+            <li>Repo Git <a href="https://github.com/jeremyriverain/google-analytics-blocker">Google Analytics
+                Blocker</a>
+
+            </li>
+          </ul>
+        </section>
       </section>
 
 
