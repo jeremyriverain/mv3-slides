@@ -10,7 +10,8 @@
   "scripts": {
     "test": "gulp test",
     "start": "gulp serve",
-    "build": "gulp"
+    "build": "gulp",
+    "deploy": "npm run build && surge --domain https://mv3-slides.surge.sh --project $PWD"
   },
   "author": {
     "name": "Hakim El Hattab",
