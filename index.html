@@ -195,6 +195,23 @@
             }
           </code></pre>
         </section>
+
+
+        <section>
+          <h4>Impossibilité d'exécuter du code hébergé sur un serveur distant</h4>
+          <p>Nécessité de packager ses dépendances pour la publication de son extension</p>
+        </section>
+        <section>
+          <h4>Remplacement des background scripts par des services workers</h4>
+          <ul>
+            <li>Exécution plus éphémère que les background scripts (gain performance)</li>
+            <li>Event-based thinking</li>
+            <li>Utilisation de l'API storage pour stocker globalement des valeurs</li>
+          </ul>
+          <pre><code data-noescape data-trim>
+              chrome.storage.sync.set({ color: 'green' });
+          </code></pre>
+        </section>
         <section>
           <h4>Remplacement de Web Request API par Declarative Net Request API</h4>
           <ul>
@@ -215,22 +232,6 @@
                   "resourceTypes": ["script"]
                 }
             }]
-          </code></pre>
-        </section>
-
-        <section>
-          <h4>Impossibilité d'exécuter du code hébergé sur un serveur distant</h4>
-          <p>Nécessité de packager ses dépendances pour la publication de son extension</p>
-        </section>
-        <section>
-          <h4>Remplacement des background scripts par des services workers</h4>
-          <ul>
-            <li>Exécution plus éphémère que les background scripts (gain performance)</li>
-            <li>Event-based thinking</li>
-            <li>Utilisation de l'API storage pour stocker globalement des valeurs</li>
-          </ul>
-          <pre><code data-noescape data-trim>
-              chrome.storage.sync.set({ color: 'green' });
           </code></pre>
         </section>
         <section>
