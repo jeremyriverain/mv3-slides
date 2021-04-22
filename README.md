@@ -1,28 +1,23 @@
-<p align="center">
-  <a href="https://revealjs.com">
-  <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text.svg" alt="reveal.js" width="450">
-  </a>
-  <br><br>
-  <a href="https://github.com/hakimel/reveal.js/actions"><img src="https://github.com/hakimel/reveal.js/workflows/tests/badge.svg"></a>
-  <a href="https://slides.com/"><img src="https://s3.amazonaws.com/static.slid.es/images/slides-github-banner-320x40.png?1" alt="Slides" width="160" height="20"></a>
-</p>
+# Slides MV3 TZ World
 
-reveal.js is an open source HTML presentation framework. It enables anyone with a web browser to create fully featured and beautiful presentations for free. [Check out the live demo](https://revealjs.com/).
+Slides de présentation du talk `Développer son extension de navigateurs en 2021` donné lors de la [TZ World](https://tz.zenika.com/), portant plus particulièrement sur le Manifest V3.
 
-The framework comes with a broad range of features including [nested slides](https://revealjs.com/vertical-slides/), [Markdown support](https://revealjs.com/markdown/), [Auto-Animate](https://revealjs.com/auto-animate/), [PDF export](https://revealjs.com/pdf-export/), [speaker notes](https://revealjs.com/speaker-view/), [LaTeX support](https://revealjs.com/math/), [syntax highlighted code](https://revealjs.com/code/) and much more.
+Les slides sont visibles sur [https://mv3-slides.surge.sh](https://mv3-slides.surge.sh)
 
-<h1>
-  <a href="https://revealjs.com/installation" style="font-size: 3em;">Get Started</a>
-</h1>
+## Installation
 
-## Documentation
-The full reveal.js documentation is available at [revealjs.com](https://revealjs.com).
+```bash
+npm install
+```
 
-## Online Editor
-Want to create your presentation using a visual editor? Try the official reveal.js presentation platform for free at [Slides.com](https://slides.com). It's made by the same people behind reveal.js.
+## Lancer le serveur de dev
 
-## License
+```bash
+npm run start
+```
 
-MIT licensed
+## Deployer avec Surge
 
-Copyright (C) 2011-2020 Hakim El Hattab, https://hakim.se
+```bash
+npm run deploy
+```
